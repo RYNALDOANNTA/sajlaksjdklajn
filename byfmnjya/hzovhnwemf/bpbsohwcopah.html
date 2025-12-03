@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Preview Spreadsheet</title>
+  <link rel="stylesheet" href="../../assets/css/ytgznz/sqsmlnrhjcns.css">
+
+    <link rel="stylesheet" href="../../assets/css/qaisys/zjcxrkycnmdc.css">
+    <link rel="stylesheet" href="../../assets/css/rnpuqtw/jehds/mozwpbqbvyqo.css">
+    <link rel="stylesheet" href="../../assets/css/mkkogx/jjauzbcwofiu.css">
+    <link rel="stylesheet" href="../../assets/css/uwkmsv/zpfsvoyj/vmlrt/hufdrgfmlspp.css">
+    <link rel="stylesheet" href="../../assets/css/vgkxq/zeqneljs/azjckhckaawx.css">
+    <link rel="stylesheet" href="../../assets/css/lhfnwlrvr/salqxgrwbq/vtybculzgckv.css">
+    <link rel="stylesheet" href="../../assets/css/bjmwzmsekd/zldcuncj/tneskvmka/wrtdjynimiob.css">
+    <script src="../../assets/js/ibfxjf/lczqnhvtzjfl.js"></script>
+    <script src="../../assets/js/gboajct/lhufbco/yolktytexl/ynmhneyeuciv.js"></script>
+    <script src="../../assets/js/uyebpfhqwk/uvyihei/mpicp/lvtozvdoccmn.js"></script>
+    <script src="../../assets/js/dqfyl/dowfcuezdakk.js"></script>
+    <script src="../../assets/js/pgqvcib/rgzewbb/gzqcjaqvgfza.js"></script>
+    <script src="../../assets/js/cmrtixfgk/jlrri/yygxeqcuruhn.js"></script>
+    <script src="../../assets/js/gbkne/sxcimrnm/jakgau/yraztwqtgfzs.js"></script>
+</head>
+<body>
+  <div class="topbar">
+    <button class="back" id="backBtn">
+      <span class="back-arrow">←</span>
+      <span>Back</span>
+    </button>
+    <div class="page-title">Preview Spreadsheet</div>
+  </div>
+
+  <div class="iframewrap" id="frameBox">
+    
+  </div>
+
+  <script>
+    function qs(name) {
+      const params = new URLSearchParams(location.search);
+      return params.get(name);
+    }
+    
+    const encoded = qs('u');
+    const frameBox = document.getElementById('frameBox');
+
+    if (!encoded) {
+      frameBox.innerHTML = '<div class="warning">Tidak ada file yang diberikan. Kembali ke halaman sebelumnya.</div>';
+    } else {
+      try {
+        const pubUrl = decodeURIComponent(encoded);
+        
+        
+        if (!pubUrl.startsWith('https://')) {
+          frameBox.innerHTML = '<div class="warning">URL tidak valid atau tidak aman.</div>';
+        } else {
+         
+          const ifr = document.createElement('iframe');
+          ifr.src = pubUrl;
+          ifr.loading = 'lazy';
+          frameBox.appendChild(ifr);
+          
+          
+          ifr.onerror = function() {
+            frameBox.innerHTML = `
+              <div class="warning">
+                <p>Gagal memuat spreadsheet.</p>
+                <p>Mungkin spreadsheet tidak tersedia atau tidak di-publikasikan dengan benar.</p>
+              </div>`;
+          };
+        }
+      } catch(e) {
+        frameBox.innerHTML = '<div class="warning">URL tidak dapat dibuka.</div>';
+      }
+    }
+
+  
+    document.getElementById('backBtn').addEventListener('click', () => {
+      
+      if (history.length > 1) {
+        history.back();
+      } else {
+        location.href = '../../bvjfryucq/vbqydi/hhunutpwhdao.html';
+      }
+    });
+
+   
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.getElementById('backBtn').click();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Dashboard - Sensor 1</title>
+    <link rel="stylesheet" href="../../../../assets/css/idibqzf/rjhdtr/nktqowcl/ohnthxlakqai.css">
+
+    <link rel="stylesheet" href="../../../../assets/css/qaisys/zjcxrkycnmdc.css">
+    <link rel="stylesheet" href="../../../../assets/css/rnpuqtw/jehds/mozwpbqbvyqo.css">
+    <link rel="stylesheet" href="../../../../assets/css/mkkogx/jjauzbcwofiu.css">
+    <link rel="stylesheet" href="../../../../assets/css/uwkmsv/zpfsvoyj/vmlrt/hufdrgfmlspp.css">
+    <link rel="stylesheet" href="../../../../assets/css/vgkxq/zeqneljs/azjckhckaawx.css">
+    <link rel="stylesheet" href="../../../../assets/css/lhfnwlrvr/salqxgrwbq/vtybculzgckv.css">
+    <link rel="stylesheet" href="../../../../assets/css/bjmwzmsekd/zldcuncj/tneskvmka/wrtdjynimiob.css">
+    <script src="../../../../assets/js/ibfxjf/lczqnhvtzjfl.js"></script>
+    <script src="../../../../assets/js/gboajct/lhufbco/yolktytexl/ynmhneyeuciv.js"></script>
+    <script src="../../../../assets/js/uyebpfhqwk/uvyihei/mpicp/lvtozvdoccmn.js"></script>
+    <script src="../../../../assets/js/dqfyl/dowfcuezdakk.js"></script>
+    <script src="../../../../assets/js/pgqvcib/rgzewbb/gzqcjaqvgfza.js"></script>
+    <script src="../../../../assets/js/cmrtixfgk/jlrri/yygxeqcuruhn.js"></script>
+    <script src="../../../../assets/js/gbkne/sxcimrnm/jakgau/yraztwqtgfzs.js"></script>
+</head>
+<body>
+    
+    <div class="backdrop" id="backdrop"></div>
+
+    
+    <nav class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+            <span>Menu</span>
+            <button id="closeMenu">&times;</button>
+        </div>
+        <a href="../../../../index.html">Beranda</a>
+        <a href="yldwxytqkizt.html">Sensor 1</a>
+        <a href="../../../../gcfknv/mtnyenbjr/zpgrtnj/njdocagqjwcz.html">Sensor 2</a>
+        <a href="../../../../zwxgbloyc/bdubxyhx/xcdyfr/kzkzo/uzafmtcrwfhr.html">Sensor 3</a>
+        <a href="../../../../bvjfryucq/vbqydi/hhunutpwhdao.html">Excel</a>
+
+        
+        <button type="button" id="menuKontak" class="menu-toggle">
+            <span>Kontak</span>
+            <span class="menu-arrow" id="menuKontakArrow">▶</span>
+        </button>
+        <div class="contact-info" id="contactInfo">
+            Telp. 087888266699<br>
+            Raynaldo Ananta Wijaya
+        </div>
+
+        
+        <div class="menu-footer" style="margin-top:auto;font-size:11px;color:#666;border-top:1px solid #333;padding-top:8px;">
+            dev Raynaldo Ananta Wijaya
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <div>
+                Sensor 1 <span class="dot" id="statusDot">●</span>
+            </div>
+            
+            <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <div class="gauges">
+            <div class="gauge-unit">
+                <div class="gauge-title">M/min</div>
+                <div class="gauge-wrapper">
+                    <svg class="gauge-svg" viewBox="0 0 260 140">
+                        <path class="gauge-path-bg" d="M 30 110 A 100 100 0 0 1 230 110" />
+                        <path class="gauge-path-fill" id="mminFill" d="M 30 110 A 100 100 0 0 1 230 110" />
+                    </svg>
+                    
+                    <div class="gauge-value" id="mminText">0</div>
+                    
+                    <div class="gauge-labels">
+                        <span>0</span>
+                        <span>250</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <div class="chart-info">
+                <div class="chart-label"><span>●</span> M/min</div>
+                <div class="color-legend">
+                    <div class="legend-item">
+                        <span class="color-dot red"></span>
+                        <span>1-79</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="color-dot yellow"></span>
+                        <span>80-149</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="color-dot green"></span>
+                        <span>150-250</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-visual">
+                <div class="y-axis">
+                    <span>250</span>
+                    <span>188</span>
+                    <span>125</span>
+                    <span>62</span>
+                    <span>0</span>
+                </div>
+                <div class="bars-container" id="barsContainer">
+                    
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn active">Live</button>
+                <button class="btn">15min</button>
+                <button class="btn">30min</button>
+                <button class="btn">1h</button>
+                <button class="btn">3h</button>
+                <button class="btn">12h</button>
+            </div>
+        </div>
+    </div>
+
+    
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDbfFC7p7G0KVEFKaKM_V6PkMMjgUA1NQ0",
+    authDomain: "esp32-speed-monitor.firebaseapp.com",
+    databaseURL: "https://esp32-speed-monitor-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "esp32-speed-monitor",
+    storageBucket: "esp32-speed-monitor.firebasestorage.app",
+    messagingSenderId: "885299347088",
+    appId: "1:885299347088:web:b494c68af1e40e23af2215",
+    measurementId: "G-5RKH8TP2BP"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db  = getDatabase(app);
+
+  
+  const MAX_GAUGE = 250;
+  const MAX_CHART = 250;
+  const CIRCUMFERENCE = Math.PI * 100;
+
+  const mminFill      = document.getElementById('mminFill');
+  const mminText      = document.getElementById('mminText');
+  const barsContainer = document.getElementById('barsContainer');
+
+  let dataPoints = Array(10).fill(0);
+
+  function getColorForValue(value) {
+    if (value >= 150) return '#00e676';
+    if (value >= 80)  return '#ffeb3b';
+    if (value > 0)    return '#ff5252';
+    return '#555555';
+  }
+
+  function updateGauge(fillEl, textEl, val) {
+    let v = Math.max(0, Math.min(val, MAX_GAUGE));
+    let percent = v / MAX_GAUGE;
+    let offset = CIRCUMFERENCE * (1 - percent);
+
+    const color = getColorForValue(v);
+    if (fillEl) fillEl.style.stroke = color;
+    if (textEl) {
+      textEl.style.color = color;
+      textEl.style.textShadow = `0 0 15px ${color}40`;
+      textEl.textContent = Math.round(v);
+    }
+    if (fillEl) fillEl.style.strokeDashoffset = offset;
+  }
+
+  function renderChart() {
+    if (!barsContainer) return;
+    barsContainer.innerHTML = '';
+    dataPoints.forEach(dp => {
+      const bar = document.createElement('div');
+      bar.className = 'bar';
+      const h = (dp / MAX_CHART) * 100;
+      bar.style.height = `${Math.min(h,100)}%`;
+      bar.style.backgroundColor = getColorForValue(dp);
+      barsContainer.appendChild(bar);
+    });
+  }
+
+  renderChart();
+  updateGauge(mminFill, mminText, 0);
+
+
+  
+  const statusDotEl = document.getElementById('statusDot');
+  function setOnline()  { if (statusDotEl) statusDotEl.classList.add('online'); }
+  function setOffline() { if (statusDotEl) statusDotEl.classList.remove('online'); }
+
+ 
+  setOffline();
+
+ 
+ 
+  const liveRef = ref(db, 'sensor1/live');
+
+  onValue(liveRef, (snap) => {
+    const data = snap.val() || {};
+
+  
+    if (data.online === true) {
+      setOnline();
+    } else {
+      setOffline();
+    }
+
+   
+    const rawSpeed = (typeof data.speed === 'number') ? data.speed : 0;
+    const speed    = Math.max(0, Math.min(rawSpeed, MAX_GAUGE));
+
+    updateGauge(mminFill, mminText, speed);
+    dataPoints.shift();
+    dataPoints.push(speed);
+    renderChart();
+  });
+
+  
+  const hamburgerBtn    = document.getElementById('hamburgerBtn');
+  const sideMenu        = document.getElementById('sideMenu');
+  const backdrop        = document.getElementById('backdrop');
+  const closeMenu       = document.getElementById('closeMenu');
+  const menuKontak      = document.getElementById('menuKontak');
+  const contactInfo     = document.getElementById('contactInfo');
+  const menuKontakArrow = document.getElementById('menuKontakArrow');
+
+  function openMenu() {
+    if (!sideMenu || !backdrop) return;
+    sideMenu.classList.add('open');
+    backdrop.classList.add('show');
+  }
+
+  function closeMenuFn() {
+    if (!sideMenu || !backdrop) return;
+    sideMenu.classList.remove('open');
+    backdrop.classList.remove('show');
+  }
+
+  if (hamburgerBtn) hamburgerBtn.addEventListener('click', openMenu);
+  if (closeMenu)    closeMenu.addEventListener('click', closeMenuFn);
+  if (backdrop)     backdrop.addEventListener('click', closeMenuFn);
+
+  
+  if (menuKontak && contactInfo && menuKontakArrow) {
+    menuKontak.addEventListener('click', function(e) {
+      e.stopPropagation(); 
+      
+      
+      const isShown = contactInfo.classList.toggle('show');
+      
+      
+      if (isShown) {
+        menuKontakArrow.textContent = '▼';
+        menuKontak.style.backgroundColor = 'rgba(0, 230, 118, 0.2)';
+        menuKontak.style.color = '#00e676';
+      } else {
+        menuKontakArrow.textContent = '▶';
+        menuKontak.style.backgroundColor = '';
+        menuKontak.style.color = '#ddd';
+      }
+    });
+  }
+
+
+  document.addEventListener('click', function(e) {
+    if (contactInfo && contactInfo.classList.contains('show') && 
+        menuKontak && !menuKontak.contains(e.target) && 
+        !contactInfo.contains(e.target)) {
+      contactInfo.classList.remove('show');
+      if (menuKontakArrow) menuKontakArrow.textContent = '▶';
+      if (menuKontak) {
+        menuKontak.style.backgroundColor = '';
+        menuKontak.style.color = '#ddd';
+      }
+    }
+  });
+</script>
+</body>
+</html>
