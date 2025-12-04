@@ -147,7 +147,7 @@
   const app = initializeApp(firebaseConfig);
   const db  = getDatabase(app);
 
-  
+  // --- GAUGE CONFIG ---
   const MAX_GAUGE = 250;
   const MAX_CHART = 250;
   const CIRCUMFERENCE = Math.PI * 100;
@@ -155,8 +155,31 @@
   const mminFill      = document.getElementById('mminFill');
   const mminText      = document.getElementById('mminText');
   const barsContainer = document.getElementById('barsContainer');
+  const statusDotEl   = document.getElementById('statusDot');
 
   let dataPoints = Array(10).fill(0);
+
+  // --- ONLINE / OFFLINE (HEARTBEAT) ---
+  let lastUpdateMs = 0;
+  const OFFLINE_TIMEOUT = 10000; // 10 detik tanpa data → offline
+
+  function setOnline()  {
+    if (statusDotEl) statusDotEl.classList.add('online');
+  }
+  function setOffline() {
+    if (statusDotEl) statusDotEl.classList.remove('online');
+  }
+
+  function refreshOnlineStatus() {
+    const now = Date.now();
+    if (now - lastUpdateMs <= OFFLINE_TIMEOUT && lastUpdateMs !== 0) {
+      setOnline();
+    } else {
+      setOffline();
+    }
+  }
+
+  setOffline(); // default
 
   function getColorForValue(value) {
     if (value >= 150) return '#00e676';
@@ -196,30 +219,16 @@
   renderChart();
   updateGauge(mminFill, mminText, 0);
 
-
-  
-  const statusDotEl = document.getElementById('statusDot');
-  function setOnline()  { if (statusDotEl) statusDotEl.classList.add('online'); }
-  function setOffline() { if (statusDotEl) statusDotEl.classList.remove('online'); }
-
- 
-  setOffline();
-
- 
- 
+  // --- LISTENER FIREBASE ---
   const liveRef = ref(db, 'sensor1/live');
 
   onValue(liveRef, (snap) => {
     const data = snap.val() || {};
 
-  
-    if (data.online === true) {
-      setOnline();
-    } else {
-      setOffline();
-    }
+    // setiap ada data baru → update timestamp heartbeat
+    lastUpdateMs = Date.now();
+    refreshOnlineStatus();
 
-   
     const rawSpeed = (typeof data.speed === 'number') ? data.speed : 0;
     const speed    = Math.max(0, Math.min(rawSpeed, MAX_GAUGE));
 
@@ -229,7 +238,10 @@
     renderChart();
   });
 
-  
+  // cek online/offline tiap 1 detik
+  setInterval(refreshOnlineStatus, 1000);
+
+  // --- MENU / UI LAINNYA ---
   const hamburgerBtn    = document.getElementById('hamburgerBtn');
   const sideMenu        = document.getElementById('sideMenu');
   const backdrop        = document.getElementById('backdrop');
@@ -254,15 +266,10 @@
   if (closeMenu)    closeMenu.addEventListener('click', closeMenuFn);
   if (backdrop)     backdrop.addEventListener('click', closeMenuFn);
 
-  
   if (menuKontak && contactInfo && menuKontakArrow) {
     menuKontak.addEventListener('click', function(e) {
       e.stopPropagation(); 
-      
-      
       const isShown = contactInfo.classList.toggle('show');
-      
-      
       if (isShown) {
         menuKontakArrow.textContent = '▼';
         menuKontak.style.backgroundColor = 'rgba(0, 230, 118, 0.2)';
@@ -274,7 +281,6 @@
       }
     });
   }
-
 
   document.addEventListener('click', function(e) {
     if (contactInfo && contactInfo.classList.contains('show') && 
