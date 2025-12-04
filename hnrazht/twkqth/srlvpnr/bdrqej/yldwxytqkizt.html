@@ -25,7 +25,7 @@
     
     <div class="backdrop" id="backdrop"></div>
 
-    
+    <!-- SIDE MENU -->
     <nav class="side-menu" id="sideMenu">
         <div class="side-menu-header">
             <span>Menu</span>
@@ -37,7 +37,7 @@
         <a href="../../../../zwxgbloyc/bdubxyhx/xcdyfr/kzkzo/uzafmtcrwfhr.html">Sensor 3</a>
         <a href="../../../../bvjfryucq/vbqydi/hhunutpwhdao.html">Excel</a>
 
-        
+        <!-- Kontak + panah -->
         <button type="button" id="menuKontak" class="menu-toggle">
             <span>Kontak</span>
             <span class="menu-arrow" id="menuKontakArrow">▶</span>
@@ -47,7 +47,7 @@
             Raynaldo Ananta Wijaya
         </div>
 
-        
+        <!-- Footer dev -->
         <div class="menu-footer" style="margin-top:auto;font-size:11px;color:#666;border-top:1px solid #333;padding-top:8px;">
             dev Raynaldo Ananta Wijaya
         </div>
@@ -58,7 +58,7 @@
             <div>
                 Sensor 1 <span class="dot" id="statusDot">●</span>
             </div>
-            
+            <!-- HAMBURGER BUTTON -->
             <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
                 <span></span>
                 <span></span>
@@ -113,7 +113,7 @@
                     <span>0</span>
                 </div>
                 <div class="bars-container" id="barsContainer">
-                    
+                    <!-- Bars di-generate JS -->
                 </div>
             </div>
 
@@ -128,7 +128,7 @@
         </div>
     </div>
 
-    
+    <!-- SCRIPT: Firebase + Dashboard Logic -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
@@ -159,9 +159,10 @@
 
   let dataPoints = Array(10).fill(0);
 
-  // --- ONLINE / OFFLINE (HEARTBEAT) ---
-  let lastUpdateMs = 0;
-  const OFFLINE_TIMEOUT = 10000; // 10 detik tanpa data → offline
+  // --- ONLINE / OFFLINE (HEARTBEAT via WEBSITE) ---
+  let lastUpdateMs   = 0;          // timestamp update terakhir (bukan snapshot pertama)
+  let firstSnapshot  = true;       // bedakan snapshot awal vs update berikutnya
+  const OFFLINE_TIMEOUT = 10000;   // 10 detik tanpa data baru → offline
 
   function setOnline()  {
     if (statusDotEl) statusDotEl.classList.add('online');
@@ -172,14 +173,22 @@
 
   function refreshOnlineStatus() {
     const now = Date.now();
-    if (now - lastUpdateMs <= OFFLINE_TIMEOUT && lastUpdateMs !== 0) {
+
+    // Belum pernah ada update setelah halaman dibuka → anggap OFF
+    if (lastUpdateMs === 0) {
+      setOffline();
+      return;
+    }
+
+    if (now - lastUpdateMs <= OFFLINE_TIMEOUT) {
       setOnline();
     } else {
       setOffline();
     }
   }
 
-  setOffline(); // default
+  // Default: saat pertama kali buka halaman → OFF
+  setOffline();
 
   function getColorForValue(value) {
     if (value >= 150) return '#00e676';
@@ -225,17 +234,24 @@
   onValue(liveRef, (snap) => {
     const data = snap.val() || {};
 
-    // setiap ada data baru → update timestamp heartbeat
-    lastUpdateMs = Date.now();
-    refreshOnlineStatus();
-
     const rawSpeed = (typeof data.speed === 'number') ? data.speed : 0;
     const speed    = Math.max(0, Math.min(rawSpeed, MAX_GAUGE));
 
+    // Update tampilan (boleh pakai data terakhir Firebase)
     updateGauge(mminFill, mminText, speed);
     dataPoints.shift();
     dataPoints.push(speed);
     renderChart();
+
+    // HANYA anggap "online" kalau sudah lewat snapshot pertama
+    if (firstSnapshot) {
+      // snapshot pertama (data lama tersimpan di Firebase) → abaikan sebagai heartbeat
+      firstSnapshot = false;
+      // Jangan set lastUpdateMs di sini, biarkan tetap 0 → status tetap OFF
+    } else {
+      // snapshot berikutnya → ini benar-benar update baru
+      lastUpdateMs = Date.now();
+    }
   });
 
   // cek online/offline tiap 1 detik
